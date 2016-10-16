@@ -69,8 +69,6 @@ public class CleanTable {
                 throw new Exception("Not rows available!");
         if(header.length != rows.get(0).length)
             throw new Exception("Header and Rows must be equal!");
-        this.transposeRow();
-        this.getColWidths();
         System.out.println(this.getDivider());
         printFormatRow(header);
         System.out.println(this.getDivider());
@@ -119,6 +117,7 @@ public class CleanTable {
     private int[] getColWidths() {
         if(columnWidths != null)
             return columnWidths;
+        this.transposeRow();
         columnWidths = new int[header.length];
         for(int i = 0; i < transRows.size(); i++) {
             int max = 0;
@@ -160,7 +159,7 @@ public class CleanTable {
     public String getDivider() {
         if(tableDivider != null)
             return tableDivider;
-        String[] sections = new String[columnWidths.length];
+        String[] sections = new String[this.getColWidths().length];
         for(int i = 0; i < columnWidths.length; i++)
             sections[i] = new String(new char[columnWidths[i]]).replace("\0", "" + divider);
         tableDivider = mask + String.join("" + mask, sections) + mask;
